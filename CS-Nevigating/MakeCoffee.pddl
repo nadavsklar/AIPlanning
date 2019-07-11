@@ -20,7 +20,8 @@
         (Location enterence) (Location kitchen) (Location first_lobby) (Location second_lobby) (Location room209) (Location elevator)
         (Arm left_arm) (Arm right_arm) 
         (free left_arm) (free right_arm)
-
+        (CoffeeCup cup) (CoffeeMachine coffee_machine) (Spoon spoon) (Sugar sugar)
+        (Brafman brafman)
         (Object cup) (Object spoon) (Object sugar)
         (Elevator elevator) (ElevatorUpButton up_button) (ElevatorDownButton down_button)
         
@@ -42,7 +43,7 @@
 
     )
     (:goal 
-        (Carried spoon)
+        (CoffeeRecieved cup)
     )
 
 )

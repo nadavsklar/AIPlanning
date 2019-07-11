@@ -1,7 +1,7 @@
 (define (domain domainA)
 
     (:predicates  
-        (Location ?x) (Floor ?x)
+        (Location ?x)
         (connected ?x ?y) (robotIn ?x)
         (Elevator ?x) (ElevatorUpButton ?x) (ElevatorDownButton ?x)
         (Locker ?x)  (CoffeeMachine ?x) (ACRemote ?x) (CoffeeCup ?x) (Assignment ?x) (Spoon ?x) (Sugar ?x) (Object ?x) 
@@ -11,6 +11,10 @@
         (Floor ?x) (FloorAbove ?x ?y) (atFloor ?x ?y) ; floor x is above y, x is in floor y
         (CoffeeReady ?x) (CoffeeWithSugar ?x) 
         (CoffeeRecieved ?x)
+
+        ;*******;
+        (Brafman ?x)
+        ;*******;
     )
 
     (:action move :parameters (?x ?y)
@@ -19,8 +23,9 @@
 
     ; atVision prev ||  Carried = not ((not atV) & (not Car))
     (:action changeVision :parameters (?prev ?new ?loc)
-    :precondition (and (Location ?loc) (atLocation ?new ?loc) (robotIn ?loc) 
-                        (not (and (not (AtVision ?prev)) (not (Carried ?prev)))))
+    :precondition 
+                (and (or (and (atLocation ?new ?loc) (robotIn ?loc)) (Carried ?new))
+                     (AtVision ?prev))
     :effect (and (not (AtVision ?prev)) (AtVision ?new)))
 
     (:action lookForward :parameters (?prev ?new ?loc)
@@ -53,14 +58,18 @@
     :effect (and (robotIn ?loc) (not (robotIn ?elevator))))
 
     (:action makeCoffee :parameters (?cup ?coffee_machine)
-    :precondition (and (AtVision ?coffee_machine) (Carried ?cup) (CoffeeCup ?cup))
+    :precondition (and (CoffeeMachine ?coffee_machine) (CoffeeCup ?cup) (AtVision ?coffee_machine) (Carried ?cup))
     :effect (CoffeeReady ?cup))
 
     (:action addSugar :parameters (?cup ?spoon ?sugar)
-    :precondition (and (CoffeeReady ?cup) (AtVision ?sugar) (Carried ?spoon) (Carried ?cup) (CoffeeCup ?cup) (Spoon ?spoon))
+    :precondition (and (Spoon ?spoon) (Sugar ?sugar) (CoffeeCup ?cup) (CoffeeReady ?cup) (AtVision ?sugar) (Carried ?spoon) (Carried ?cup))
     :effect (CoffeeWithSugar ?cup))
 
     (:action giveCoffeeToBrafman :parameters (?cup ?brafman)
-    :precondition (and (CoffeeWithSugar ?cup) (AtVision ?brafman) (Carried ?cup))
+    :precondition (and (Brafman ?brafman) (CoffeeWithSugar ?cup) (AtVision ?brafman) (Carried ?cup))
     :effect (CoffeeRecieved ?cup))
+
+    (:action leave :parameters (?obj ?arm)
+    :precondition (and (Arm ?arm) (Carried ?obj))
+    :effect (and (not (Carried ?obj)) (free ?arm)))
 )
