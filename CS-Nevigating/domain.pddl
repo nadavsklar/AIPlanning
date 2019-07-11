@@ -8,7 +8,7 @@
         (Arm ?x) 
         (free ?x) (carry ?x ?y) (AtVision ?x) (Carried ?x) 
         (AC_On ?x) (atLocation ?x ?y) (atLocker ?x ?y) ; atLocation ?x ?y - x is in y.
-        (FirstFloor ?x) (SecondFloor ?x)
+        (FirstFloor ?x) (SecondFloor ?x) (FloorAbove ?x ?y) ; floor x is above y
         (CoffeeReady ?x) (CoffeeWithSugar ?x) 
     )
 
@@ -30,15 +30,18 @@
     :precondition (and (AtVision ?obj) (free ?arm) (atLocation ?obj ?loc) (robotIn ?loc) (Location ?loc) (Object ?obj) (Arm ?arm))
     :effect (and (carry ?arm ?obj) (not (free ?arm)) (Carried ?obj)))
 
-    (:action pressUpButton :parameters (?arm ?button ?loc)
-    :precondition (and (Arm ?arm) (Location ?loc) (AtVision ?button) (free ?arm) (ElevatorUpButton ?button))
-    :effect (when (FirstFloor ?loc))  )
+    (:action pressUpButton :parameters (?arm ?button ?downFloor ?upFloor)
+    :precondition (and (Arm ?arm) (AtVision ?button) (free ?arm) (ElevatorUpButton ?button) (robotIn ?downFloor) (FloorAbove ?upFloor ?downFloor))
+    :effect (and (not (robotIn ?downFloor)) (robotIn ?upFloor))
 
+    (:action pressDownButton :parameters (?arm ?button ?downFloor ?upFloor ?elevator)
+    :precondition (and (Arm ?arm) (AtVision ?button) (free ?arm) (Elevator ?elevator) (robotIn ?elevator)
+        (ElevatorDownButton ?button) (robotIn ?upFloor) (FloorAbove ?upFloor ?downFloor))
+    :effect (and (not (robotIn ?upFloor)) (robotIn ?downFloor))
 
-                        (when (and (boarded ?passenger)
-                             (destin ?passenger ?floor))
-                        (and (not (boarded ?passenger))
-                             (served ?passenger))))
+    (:action enterElevator :parameters (?loc ?floor ?elevator)
+    :precondition (and (AtVision ?button) (robotIn ?floor) (robotIn ?loc) (connected ?loc ?elevator) (Elevator ?elevator))
+    :effect (and (not (robotIn ?loc)) (robotIn ?elevator))
 
 
 )
