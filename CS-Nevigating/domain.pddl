@@ -4,9 +4,9 @@
         (Location ?x)
         (connected ?x ?y) (robotIn ?x)
         (Elevator ?x) (ElevatorUpButton ?x) (ElevatorDownButton ?x)
-        (Locker ?x)  (CoffeeMachine ?x) (ACRemote ?x) (CoffeeCup ?x) (Assignment ?x) (Spoon ?x) (Sugar ?x) (Object ?x) 
-        (Arm ?x) 
-        (free ?x) (carry ?x ?y) (AtVision ?x) (Carried ?x) 
+        (Locker ?x)  (CoffeeMachine ?x) (CoffeeCup ?x) (Assignment ?x) (Spoon ?x) (Sugar ?x) (Object ?x) 
+        (Arm ?x) (free ?x) (carry ?x ?y) (AtVision ?x) (Carried ?x) 
+        (ACRemote ?x) (AirConditioner ?x)
         (AC_On ?x) (atLocation ?x ?y) (atLocker ?x ?y) ; atLocation ?x ?y - x is in y.
         (Floor ?x) (FloorAbove ?x ?y) (atFloor ?x ?y) ; floor x is above y, x is in floor y
         (CoffeeReady ?x) (CoffeeWithSugar ?x) 
@@ -72,4 +72,8 @@
     (:action leave :parameters (?obj ?arm)
     :precondition (and (Arm ?arm) (Carried ?obj))
     :effect (and (not (Carried ?obj)) (free ?arm)))
+
+    (:action turnAcOn :parameters (?ac ?remote)
+    :precondition (and (AirConditioner ?ac) (ACRemote ?remote) (AtVision ?ac) (Carried ?remote) (not (AC_On ?ac)))
+    :effect (AC_On ?ac))
 )
