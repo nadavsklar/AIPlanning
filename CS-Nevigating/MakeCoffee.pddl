@@ -1,5 +1,5 @@
 (define (problem MakeCoffee)
-(:domain domainA)
+(:domain domainCS)
 
     (:objects 
         left_arm right_arm

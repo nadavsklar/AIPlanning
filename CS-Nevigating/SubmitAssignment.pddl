@@ -1,5 +1,5 @@
 (define (problem SubmitAssignment)
-(:domain domainA)
+(:domain domainCS)
 
     (:objects 
         left_arm right_arm

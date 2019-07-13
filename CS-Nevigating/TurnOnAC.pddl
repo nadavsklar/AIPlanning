@@ -1,5 +1,5 @@
 (define (problem TurnOnAC)
-(:domain domainA)
+(:domain domainCS)
 
     (:objects 
         left_arm right_arm

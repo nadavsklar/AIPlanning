@@ -1,4 +1,4 @@
-(define (domain domainA)
+(define (domain domainCS)
 
     (:predicates  
         (Location ?x)
