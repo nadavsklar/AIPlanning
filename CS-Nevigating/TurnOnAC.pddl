@@ -51,7 +51,7 @@
         (connected first_lobby room111) (connected room111 first_lobby)
         (connected enterence elevator) (connected elevator enterence)
 
-        (oneof (atLocation ac_remote room111) (atLocation ac_remote room111)) 
+        (oneof (atLocation ac_remote room111) (atLocation ac_remote room209)) 
 
     )
     (:goal 
