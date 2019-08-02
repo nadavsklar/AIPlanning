@@ -37,7 +37,7 @@
         (Floor floor0) (Floor floor1) (Floor floor2)
         (FloorAbove floor0 floor1) (FloorAbove floor0 floor2) (FloorAbove floor1 floor2)
         ; Objects Locations
-        (atLocation ac_209 room209) (atLocation ac_remote room111)
+        (atLocation ac_209 room209)
         (atLocation brafman room209) (atLocation up_button elevator) (atLocation down_button elevator)
         ; Floor rooms
         (atFloor second_lobby floor2)
@@ -50,6 +50,8 @@
         (connected first_lobby kitchen) (connected kitchen first_lobby)
         (connected first_lobby room111) (connected room111 first_lobby)
         (connected enterence elevator) (connected elevator enterence)
+
+        (oneof (atLocation ac_remote room111) (atLocation ac_remote room111)) 
 
     )
     (:goal 
